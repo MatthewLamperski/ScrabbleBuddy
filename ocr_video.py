@@ -30,7 +30,7 @@ webcam = not args.get("input", False)
 
 if webcam:
     print("[INFO] Starting video stream...")
-    vs = VideoStream(src=0).start()
+    vs = VideoStream(src=1).start()
     time.sleep(2.0)
 
 else:
@@ -72,7 +72,6 @@ while True:
         # blur image and do edge detection
         blurred = cv2.GaussianBlur(gray, (5, 5,), 0)
         edged = cv2.Canny(blurred, 75, 200)
-        cv2.imshow("Edged", edged)
 
         # find contours in edgemap and sort by size (desc), keeping only large ones
         cnts = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -110,7 +109,6 @@ while True:
 
             # swap channel ordering for card and OCR it
             rgb = cv2.cvtColor(card, cv2.COLOR_BGR2RGB)
-            cv2.imshow("RGB", rgb)
             results = pytesseract.image_to_data(rgb, output_type=Output.DICT)
 
             # loop over each text localization
